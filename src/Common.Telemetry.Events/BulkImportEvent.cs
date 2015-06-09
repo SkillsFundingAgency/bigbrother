@@ -5,11 +5,11 @@
 
     public partial class BulkImportEvent : BBEvent
     {
-        public Guid BatchId { get; private set; }
+        public Guid BatchId { get; }
 
-        public Guid RecordId { get; private set; }
+        public Guid RecordId { get; }
 
-        public bool Failed { get; private set; }
+        public bool Failed { get; }
 
         public BulkImportEvent(string message, Guid batchId, Guid recordId, bool failed)
             : base(message)

@@ -24,9 +24,9 @@
 
 
 
-            BBPublisher.Push(new A(""));
-            BBPublisher.Push(new B(""));
-            BBPublisher.Push(new C("", new Exception()));
+            BBPublisher.Publish(new A(""));
+            BBPublisher.Publish(new B(""));
+            BBPublisher.Publish(new C("", new Exception()));
         }
     }
 

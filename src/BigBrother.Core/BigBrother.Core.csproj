@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BBEvent.cs" />
+    <Compile Include="BBInternalEvent.cs" />
     <Compile Include="BBExceptionEvent.cs" />
     <Compile Include="BBMetricEvent.cs" />
     <Compile Include="BBPublisher.cs" />

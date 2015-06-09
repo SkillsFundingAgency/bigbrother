@@ -12,36 +12,27 @@
 
         private static readonly Subject<BBMetricEvent> Metrics = new Subject<BBMetricEvent>();
 
-        public static IObservable<BBEvent> EventStream
-        {
-            get { return Events.AsObservable(); }
-        }
+        public static IObservable<BBEvent> EventStream => Events.AsObservable();
 
-        public static IObservable<BBEvent> ExceptionStream
-        {
-            get { return Exceptions.AsObservable(); }
-        }
+        public static IObservable<BBEvent> ExceptionStream => Exceptions.AsObservable();
 
-        public static IObservable<BBEvent> MetricStream
-        {
-            get { return Metrics.AsObservable(); }
-        }
+        public static IObservable<BBEvent> MetricStream => Metrics.AsObservable();
 
-        public static void Push(BBEvent bbEvent)
+        public static void Publish(BBEvent bbEvent)
         {
             // GUARDS
 
             Events.OnNext(bbEvent);
         }
 
-        public static void Push(BBExceptionEvent exceptionEvent)
+        public static void Publish(BBExceptionEvent exceptionEvent)
         {
             // GUARDS
 
             Exceptions.OnNext(exceptionEvent);
         }
 
-        public static void Push(BBMetricEvent metricEvent)
+        public static void Publish(BBMetricEvent metricEvent)
         {
             // GUARDS
 

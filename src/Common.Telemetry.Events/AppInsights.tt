@@ -37,12 +37,15 @@ namespace <#= bbEvent.Namespace #>
             var eventTelementry = new EventTelemetry {Name = GetType().Name};
 
 <#	foreach (var property in validProperties) {
-		if(property.PropertyType == typeof(string)) { #>
+		if(property.PropertyType == typeof(string))
+		{
+#>
             eventTelementry.Properties["<#= property.Name #>"] = <#= property.Name #>;
 <#		} else { #>
             eventTelementry.Properties["<#= property.Name #>"] = <#= property.Name #>.ToString();
 <#		}
-	} #>
+	}
+#>
 
             return eventTelementry;
         }
@@ -53,4 +56,5 @@ namespace <#= bbEvent.Namespace #>
 
     manager.Process();
 #>
+
 // Intentionally Empty
