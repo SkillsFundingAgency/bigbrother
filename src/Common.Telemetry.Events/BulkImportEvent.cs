@@ -3,6 +3,7 @@
     using System;
     using BigBrother.Core;
 
+    [EtwEvent(Message = "Batch {0} - Record {1}")]
     public partial class BulkImportEvent : BBEvent
     {
         public Guid BatchId { get; }

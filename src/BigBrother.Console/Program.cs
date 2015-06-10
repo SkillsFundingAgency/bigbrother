@@ -12,7 +12,7 @@
         {
             var assembly = Assembly.LoadFile(Path.Combine(Environment.CurrentDirectory, "Common.Telemetry.Events.dll") );
 
-            var events = assembly.GetTypes().Where(t => typeof(BBEvent).IsAssignableFrom(t));
+            var events = assembly.GetTypes().Where(t => typeof(BBEvent).IsAssignableFrom(t) && !t.IsAbstract && t.GetCustomAttributes().Select(a => a.GetType()).Contains(typeof(EtwEventAttribute)));
 
             var foo = events.First();
 

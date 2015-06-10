@@ -1,9 +1,11 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="$(ProjectDir)\bin\Debug\BigBrother.Core.dll" #>
+<#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Text" #>
 <#@ import namespace="BigBrother.Core" #>
 <#@ output extension=".cs" #>
 <#
@@ -17,16 +19,20 @@
     var path = Path.Combine(Path.GetDirectoryName(Host.TemplateFile) + relativeOutDir, "Common.Telemetry.Events.dll");
 
     var assembly = Assembly.LoadFrom(path);
-    var events = assembly.GetTypes().Where(t => typeof (BBEvent).IsAssignableFrom(t) && !t.IsAbstract);
+    var events = assembly.GetTypes().Where(
+        t =>
+            typeof (BBEvent).IsAssignableFrom(t) &&
+            !t.IsAbstract &&
+            t.GetCustomAttributes().Select(a => a.GetType()).Contains(typeof (EtwEventAttribute)));
 
 	var i = 1;
 #>
-namespace <#= Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")  #>
+namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")#>
 {
 	using System;
     using Microsoft.Diagnostics.Tracing;
 
-    sealed partial class EtwInternalSource : EventSource
+    public sealed partial class EtwInternalSource : EventSource
     {
 <#  foreach (var bbEvent in events)
 	{
@@ -37,10 +43,10 @@ namespace <#= Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace"
 	                                             (p.PropertyType.Namespace != null && !p.PropertyType.Namespace.Contains("BigBrother.Core")))
 	                                 .ToList();
 #>
-		public void MessageMethod(<#foreach (var property in validProperties) { #><#= property.PropertyType.Name #> <#= CamelCase(property.Name) #><# if(property != validProperties.Last()) { #>, <# } #><# } #>)
+		public void <#=EtwEventName(bbEvent)#>(<#=MapToSignature(validProperties, true)#>)
 		{
 			if (IsEnabled())
-				WriteEvent(<#= i++ #>, <#foreach (var property in validProperties) { #><#= CamelCase(property.Name) #><# if(property != validProperties.Last()) { #>, <# } #><# } #>);
+				WriteEvent(<#=i++#>, <#=MapToSignature(validProperties)#>);
 		}
 
 <#
@@ -50,8 +56,30 @@ namespace <#= Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace"
 }
 
 <#+
-    private string CamelCase(string input)
+    private static string CamelCase(string input)
     {
         return input[0].ToString().ToLower() + input.Substring(1);
+    }
+
+    private static string MapToSignature(List<PropertyInfo> properties, bool includeType = false)
+    {
+		var sb = new StringBuilder();
+        foreach (var property in properties)
+        {
+            if (includeType)
+                sb.Append(property.PropertyType.Name + " ");
+
+            sb.Append(CamelCase(property.Name));
+
+            if (property != properties.Last())
+                sb.Append(", ");
+        }
+
+        return sb.ToString();
+    }
+
+    private static string EtwEventName(Type eventType)
+    {
+        return eventType.Name.Replace("Event", "").Replace("event", "");
     }
 #>
