@@ -16,9 +16,10 @@
 
             var foo = events.First();
 
-            var validProperties = foo.GetProperties().Where(p => p.PropertyType.IsValueType ||
+            var validProperties = foo.GetProperties().Where(p => (p.PropertyType.IsValueType ||
                                                                  p.PropertyType == typeof (Guid) ||
-                                                                 p.PropertyType == typeof (string));
+                                                                 p.PropertyType == typeof (string)) &&
+                                                                 (p.PropertyType.Namespace != null && !p.PropertyType.Namespace.Contains("BigBrother.Core")));
 
 
 
