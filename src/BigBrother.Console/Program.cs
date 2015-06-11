@@ -1,61 +1,14 @@
 ﻿namespace BigBrother.Console
 {
     using System;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
+    using Common.Telemetry.Events;
     using Core;
 
     class Program
     {
         static void Main(string[] args)
         {
-            var assembly = Assembly.LoadFile(Path.Combine(Environment.CurrentDirectory, "Common.Telemetry.Events.dll") );
-
-            var events = assembly.GetTypes().Where(t => typeof(BBEvent).IsAssignableFrom(t) && !t.IsAbstract && t.GetCustomAttributes().Select(a => a.GetType()).Contains(typeof(EtwEventAttribute)));
-
-            var foo2 = events.First().GetCustomAttribute(typeof (EtwEventAttribute));
-
-            var foo = events.First();
-
-            var validProperties = foo.GetProperties().Where(p => (p.PropertyType.IsValueType ||
-                                                                 p.PropertyType == typeof (Guid) ||
-                                                                 p.PropertyType == typeof (string)) &&
-                                                                 (p.PropertyType.Namespace != null && !p.PropertyType.Namespace.Contains("BigBrother.Core")));
-
-
-
-
-
-            BBPublisher.Publish(new A(""));
-            BBPublisher.Publish(new B(""));
-            BBPublisher.Publish(new C("", new Exception()));
-        }
-    }
-
-    public class A : BBEvent
-    {
-        public A(string message) : base(message)
-        {
-        }
-
-        public override FlexEventType EventType
-        {
-            get { throw new NotImplementedException(); }
-        }
-    }
-
-    public class B : BBMetricEvent
-    {
-        public B(string message) : base(message)
-        {
-        }
-    }
-
-    public class C : BBExceptionEvent
-    {
-        public C(string message, Exception exception) : base(message, exception)
-        {
+            BBPublisher.Publish(new BulkImportEvent("some message", Guid.NewGuid(), Guid.NewGuid(), false));
         }
     }
 }

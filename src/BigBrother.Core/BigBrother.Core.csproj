@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BBConfiguration.cs" />
     <Compile Include="BBEvent.cs" />
     <Compile Include="BBInternalEvent.cs" />
     <Compile Include="BBExceptionEvent.cs" />
