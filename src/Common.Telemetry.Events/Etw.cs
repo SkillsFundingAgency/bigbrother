@@ -1,16 +1,5 @@
-﻿namespace Common.Telemetry.Events
-{
-	using System;
-    using Microsoft.Diagnostics.Tracing;
-
-    public sealed partial class EtwInternalSource : EventSource
-    {
-		public void BulkImport(Guid batchId, Guid recordId, Boolean failed, String message)
-		{
-			if (IsEnabled())
-				WriteEvent(1, batchId, recordId, failed, message);
-		}
-
-    }
-}
-
+﻿
+// Generated helper templates
+// Generated items
+// C:\Users\David\Source\Repos\bigbrother\src\Common.Telemetry.Events\SetupBB.Generated.cs
+// C:\Users\David\Source\Repos\bigbrother\src\Common.Telemetry.Events\EtwInternalSource.Generated.cs

@@ -2,9 +2,6 @@
 <#@ include file="TemplateFileManager.ttinclude" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="$(ProjectDir)\bin\Debug\BigBrother.Core.dll" #>
-<#@ import namespace="System.IO" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="System.Reflection" #>
 <#@ import namespace="BigBrother.Core" #>
 <#@ output extension=".cs" #>
 <#

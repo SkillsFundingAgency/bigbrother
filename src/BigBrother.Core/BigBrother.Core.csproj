@@ -67,6 +67,7 @@
     <Compile Include="BBMetricEvent.cs" />
     <Compile Include="BBPublisher.cs" />
     <Compile Include="EtwEventAttribute.cs" />
+    <Compile Include="ISetupEtw.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

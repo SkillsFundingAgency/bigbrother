@@ -1,16 +1,20 @@
 ﻿namespace BigBrother.Core
 {
     using System;
+    using System.Collections.Generic;
     using System.Reactive.Linq;
     using System.Reactive.Subjects;
 
     public static class BBPublisher
     {
+
         private static readonly Subject<BBEvent> Events = new Subject<BBEvent>();
 
         private static readonly Subject<BBExceptionEvent> Exceptions = new Subject<BBExceptionEvent>();
 
         private static readonly Subject<BBMetricEvent> Metrics = new Subject<BBMetricEvent>();
+
+        public static Dictionary<Type, IDisposable> EtwSubscriptions { get; } = new Dictionary<Type, IDisposable>();
 
         public static IObservable<BBEvent> EventStream => Events.AsObservable();
 

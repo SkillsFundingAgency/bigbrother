@@ -14,6 +14,8 @@
 
             var events = assembly.GetTypes().Where(t => typeof(BBEvent).IsAssignableFrom(t) && !t.IsAbstract && t.GetCustomAttributes().Select(a => a.GetType()).Contains(typeof(EtwEventAttribute)));
 
+            var foo2 = events.First().GetCustomAttribute(typeof (EtwEventAttribute));
+
             var foo = events.First();
 
             var validProperties = foo.GetProperties().Where(p => (p.PropertyType.IsValueType ||
