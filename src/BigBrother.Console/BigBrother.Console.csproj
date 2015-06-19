@@ -72,7 +72,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Common.Telemetry.Events\Common.Telemetry.Events.csproj">
       <Project>{abc45093-2211-4626-8286-229d33e76a6c}</Project>
-      <Name>FCT.Common.Telemetry.Events</Name>
+      <Name>Common.Telemetry.Events</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

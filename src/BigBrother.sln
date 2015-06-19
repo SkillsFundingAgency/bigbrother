@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Telemetry.Events", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigBrother.Console", "BigBrother.Console\BigBrother.Console.csproj", "{8343873B-0068-42D7-9626-C2CABAED88EE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9D21055F-CF5F-4ED6-B2F3-811959ECB799}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigBrother.Core.Tests", "Tests\BigBrother.Core.Tests\BigBrother.Core.Tests.csproj", "{B0D056F7-4994-4A4C-99C5-372A0A4D24D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Telemetry.Events.Tests", "Tests\Common.Telemetry.Events.Tests\Common.Telemetry.Events.Tests.csproj", "{87E873EA-5338-4CEE-BFEF-D70A90D55E1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +33,20 @@ Global
 		{8343873B-0068-42D7-9626-C2CABAED88EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8343873B-0068-42D7-9626-C2CABAED88EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8343873B-0068-42D7-9626-C2CABAED88EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0D056F7-4994-4A4C-99C5-372A0A4D24D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0D056F7-4994-4A4C-99C5-372A0A4D24D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0D056F7-4994-4A4C-99C5-372A0A4D24D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0D056F7-4994-4A4C-99C5-372A0A4D24D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87E873EA-5338-4CEE-BFEF-D70A90D55E1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87E873EA-5338-4CEE-BFEF-D70A90D55E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87E873EA-5338-4CEE-BFEF-D70A90D55E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87E873EA-5338-4CEE-BFEF-D70A90D55E1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B0D056F7-4994-4A4C-99C5-372A0A4D24D2} = {9D21055F-CF5F-4ED6-B2F3-811959ECB799}
+		{87E873EA-5338-4CEE-BFEF-D70A90D55E1B} = {9D21055F-CF5F-4ED6-B2F3-811959ECB799}
 	EndGlobalSection
 EndGlobal
