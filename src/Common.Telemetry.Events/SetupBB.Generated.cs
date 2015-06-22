@@ -8,11 +8,13 @@
     {
         public void Setup()
         {
-            BBPublisher.EventStream.OfType<BulkImportEvent>().Subscribe(
-                e =>
-                {
-                    EtwInternalSource.Instance.BulkImport(e.BatchId, e.RecordId, e.Failed, e.Message);
-                });
+            BigBrother.EtwSubscriptions.Add(
+                typeof (BulkImportEvent),
+                BigBrother.EventStream.OfType<BulkImportEvent>().Subscribe(
+                    e =>
+                    {
+                        EtwInternalSource.Instance.BulkImport(e.BatchId, e.RecordId, e.Failed, e.Message);
+                    }));
         }
 	}
 }

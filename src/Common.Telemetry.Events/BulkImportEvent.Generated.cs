@@ -4,7 +4,7 @@
 
     public partial class BulkImportEvent
     {
-        public EventTelemetry ToEventTelemetry()
+        public EventTelemetry ToTelemetry()
         {
             var eventTelementry = new EventTelemetry {Name = GetType().Name};
 

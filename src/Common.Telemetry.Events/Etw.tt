@@ -108,11 +108,13 @@ namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")
 	                                             (p.PropertyType.Namespace != null && !p.PropertyType.Namespace.Contains("BigBrother.Core")))
 	                                 .ToList();
 #>
-            BBPublisher.EventStream.OfType<<#=bbEvent.Name#>>().Subscribe(
-                e =>
-                {
-                    EtwInternalSource.Instance.<#=EtwEventName(bbEvent)#>(<#=MapToEventSource(validProperties)#>);
-                });
+            BigBrother.EtwSubscriptions.Add(
+                typeof (<#=bbEvent.Name#>),
+                BigBrother.EventStream.OfType<<#=bbEvent.Name#>>().Subscribe(
+                    e =>
+                    {
+                        EtwInternalSource.Instance.<#=EtwEventName(bbEvent)#>(<#=MapToEventSource(validProperties)#>);
+                    }));
 <#
     }
 #>

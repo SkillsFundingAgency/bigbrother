@@ -2,16 +2,26 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.IO;
     using System.Linq;
     using System.Reactive.Linq;
     using System.Reactive.Subjects;
     using System.Reflection;
+    using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Microsoft.ApplicationInsights.Extensibility;
+    using Microsoft.CSharp.RuntimeBinder;
 
-    public static class BBPublisher
+    public static class BigBrother
     {
-        static BBPublisher()
+        static BigBrother()
         {
+            var insightsKey = ConfigurationManager.AppSettings["iKey"];
+
+            TelemetryConfiguration.Active.InstrumentationKey = insightsKey;
+            InsightsClient.InstrumentationKey = insightsKey;
+
             var dynamicTypes = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, BBConfiguration.TelemetryAssemblySearch)
                                         .SelectMany(p => Assembly.LoadFile(Path.Combine(Environment.CurrentDirectory, p)).GetTypes());
 
@@ -22,6 +32,26 @@
             {
                 setup.Setup();
             }
+
+            _eventInsightsSubscription = Events.Subscribe(OnNextEvent);
+        }
+
+        private static void OnNextEvent(BBEvent bbEvent)
+        {
+            try
+            {
+                InsightsClient.TrackEvent((EventTelemetry) ((dynamic) bbEvent).ToTelemetry());
+            }
+            catch (RuntimeBinderException bex)
+            {
+                InsightsClient.TrackException(
+                    new BBInternalEvent($"Method [ToTelemetry] not found for type {bbEvent.GetType()}, did you forget to run all the T4s?", bex).ToTelemetry());
+            }
+            catch (Exception ex)
+            {
+                InsightsClient.TrackException(
+                    new BBInternalEvent($"Error senting the telemetry event through AppInsights", ex).ToTelemetry());
+            }
         }
 
         private static readonly Subject<BBEvent> Events = new Subject<BBEvent>();
@@ -29,6 +59,10 @@
         private static readonly Subject<BBExceptionEvent> Exceptions = new Subject<BBExceptionEvent>();
 
         private static readonly Subject<BBMetricEvent> Metrics = new Subject<BBMetricEvent>();
+
+        private static IDisposable _eventInsightsSubscription;
+
+        private static readonly TelemetryClient InsightsClient = new TelemetryClient();
 
         public static Dictionary<Type, IDisposable> EtwSubscriptions { get; } = new Dictionary<Type, IDisposable>();
 
@@ -57,6 +91,11 @@
             // GUARDS
 
             Metrics.OnNext(metricEvent);
+        }
+
+        public static void Flush()
+        {
+            InsightsClient.Flush();
         }
     }
 }

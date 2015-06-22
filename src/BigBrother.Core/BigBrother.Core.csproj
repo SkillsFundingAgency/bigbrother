@@ -38,11 +38,16 @@
     <AssemblyOriginatorKeyFile>BigBrother.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>..\..\packages\Microsoft.ApplicationInsights.0.17.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource">
       <HintPath>..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.25\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
@@ -72,7 +77,7 @@
     <Compile Include="BBInternalEvent.cs" />
     <Compile Include="BBExceptionEvent.cs" />
     <Compile Include="BBMetricEvent.cs" />
-    <Compile Include="BBPublisher.cs" />
+    <Compile Include="BigBrother.cs" />
     <Compile Include="EtwEventAttribute.cs" />
     <Compile Include="ISetupEtw.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

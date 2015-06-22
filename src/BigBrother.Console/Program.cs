@@ -8,7 +8,10 @@
     {
         static void Main(string[] args)
         {
-            BBPublisher.Publish(new BulkImportEvent("some message", Guid.NewGuid(), Guid.NewGuid(), false));
+            BigBrother.Publish(new BulkImportEvent("some message", Guid.NewGuid(), Guid.NewGuid(), false));
+            BigBrother.Flush();
+
+            Console.ReadKey(false);
         }
     }
 }
