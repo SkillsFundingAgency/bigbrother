@@ -25,11 +25,12 @@
 #>
 namespace <#= bbEvent.Namespace #>
 {
+    using Microsoft.ApplicationInsights.Channel;
     using Microsoft.ApplicationInsights.DataContracts;
 
     public partial class <#= bbEvent.Name #>
     {
-        public EventTelemetry ToTelemetry()
+        public override ITelemetry ToTelemetry()
         {
             var eventTelementry = new EventTelemetry {Name = GetType().Name};
 

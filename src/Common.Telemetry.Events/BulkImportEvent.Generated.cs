@@ -1,10 +1,11 @@
 ﻿namespace Common.Telemetry.Events
 {
+    using Microsoft.ApplicationInsights.Channel;
     using Microsoft.ApplicationInsights.DataContracts;
 
     public partial class BulkImportEvent
     {
-        public EventTelemetry ToTelemetry()
+        public override ITelemetry ToTelemetry()
         {
             var eventTelementry = new EventTelemetry {Name = GetType().Name};
 

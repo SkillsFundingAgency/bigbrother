@@ -1,6 +1,7 @@
 ﻿namespace BigBrother.Core
 {
     using System;
+    using Microsoft.ApplicationInsights.Channel;
     using Microsoft.ApplicationInsights.DataContracts;
 
     public class BBInternalEvent : BBEvent
@@ -15,7 +16,7 @@
 
         public override FlexEventType EventType => FlexEventType.Error;
 
-        public ExceptionTelemetry ToTelemetry()
+        public override ITelemetry ToTelemetry()
         {
             var telemetry = new ExceptionTelemetry
             {

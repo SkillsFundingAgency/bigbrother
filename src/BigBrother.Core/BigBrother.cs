@@ -34,23 +34,32 @@
             }
 
             _eventInsightsSubscription = Events.Subscribe(OnNextEvent);
+            _exceptionInsightsSubscription = Exceptions.Subscribe(OnNextException);
+        }
+
+        private static void OnNextException(BBExceptionEvent bbException)
+        {
+            try
+            {
+                InsightsClient.TrackException((ExceptionTelemetry) bbException.ToTelemetry());
+            }
+            catch (Exception ex)
+            {
+                InsightsClient.TrackException(
+                    (ExceptionTelemetry) new BBInternalEvent("Error senting the telemetry event through AppInsights", ex).ToTelemetry());
+            }
         }
 
         private static void OnNextEvent(BBEvent bbEvent)
         {
             try
             {
-                InsightsClient.TrackEvent((EventTelemetry) ((dynamic) bbEvent).ToTelemetry());
-            }
-            catch (RuntimeBinderException bex)
-            {
-                InsightsClient.TrackException(
-                    new BBInternalEvent($"Method [ToTelemetry] not found for type {bbEvent.GetType()}, did you forget to run all the T4s?", bex).ToTelemetry());
+                InsightsClient.TrackEvent((EventTelemetry) bbEvent.ToTelemetry());
             }
             catch (Exception ex)
             {
                 InsightsClient.TrackException(
-                    new BBInternalEvent($"Error senting the telemetry event through AppInsights", ex).ToTelemetry());
+                    (ExceptionTelemetry) new BBInternalEvent("Error senting the telemetry event through AppInsights", ex).ToTelemetry());
             }
         }
 
@@ -61,6 +70,8 @@
         private static readonly Subject<BBMetricEvent> Metrics = new Subject<BBMetricEvent>();
 
         private static IDisposable _eventInsightsSubscription;
+
+        private static IDisposable _exceptionInsightsSubscription;
 
         private static readonly TelemetryClient InsightsClient = new TelemetryClient();
 
