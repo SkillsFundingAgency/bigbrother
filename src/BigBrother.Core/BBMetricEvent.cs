@@ -1,8 +1,10 @@
 ﻿namespace BigBrother.Core
 {
+    using System;
     using Microsoft.ApplicationInsights.Channel;
 
-    internal class BBMetricEvent : BBEvent
+    [Obsolete("This isn't ready to be used yet.")]
+    public sealed class BBMetricEvent : BBEvent
     {
         public BBMetricEvent(string message)
             : base(message)

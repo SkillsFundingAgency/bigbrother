@@ -15,6 +15,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigBrother.Core.Tests", "Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Telemetry.Events.Tests", "Tests\Common.Telemetry.Events.Tests\Common.Telemetry.Events.Tests.csproj", "{87E873EA-5338-4CEE-BFEF-D70A90D55E1B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packaging", "packaging", "{1DDB7EE3-438C-499E-9D12-8E11962E38FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{A6122C84-E12F-454A-8C02-98AE228F0515}"
+	ProjectSection(SolutionItems) = preProject
+		..\packaging\content\app.config.install.xdt = ..\packaging\content\app.config.install.xdt
+		..\packaging\content\app.config.uninstall.xdt = ..\packaging\content\app.config.uninstall.xdt
+		..\packaging\content\web.config.install.xdt = ..\packaging\content\web.config.install.xdt
+		..\packaging\content\web.config.uninstall.xdt = ..\packaging\content\web.config.uninstall.xdt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{A5D944EF-E24E-49E2-AB5B-D45386080828}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +60,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B0D056F7-4994-4A4C-99C5-372A0A4D24D2} = {9D21055F-CF5F-4ED6-B2F3-811959ECB799}
 		{87E873EA-5338-4CEE-BFEF-D70A90D55E1B} = {9D21055F-CF5F-4ED6-B2F3-811959ECB799}
+		{A6122C84-E12F-454A-8C02-98AE228F0515} = {1DDB7EE3-438C-499E-9D12-8E11962E38FF}
+		{A5D944EF-E24E-49E2-AB5B-D45386080828} = {1DDB7EE3-438C-499E-9D12-8E11962E38FF}
 	EndGlobalSection
 EndGlobal

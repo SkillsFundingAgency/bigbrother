@@ -79,7 +79,7 @@
     <Compile Include="BBMetricEvent.cs" />
     <Compile Include="BigBrother.cs" />
     <Compile Include="EtwEventAttribute.cs" />
-    <Compile Include="ISetupEtw.cs" />
+    <Compile Include="ISetupBB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

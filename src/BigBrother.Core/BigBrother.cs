@@ -96,6 +96,7 @@
             Exceptions.OnNext(exceptionEvent);
         }
 
+        [Obsolete("This isn't ready to be used yet.")]
         public static void Publish(BBMetricEvent metricEvent)
         {
             // GUARDS
