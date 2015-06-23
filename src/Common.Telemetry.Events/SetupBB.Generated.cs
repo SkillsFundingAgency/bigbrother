@@ -15,6 +15,15 @@
                     {
                         EtwInternalSource.Instance.BulkImport(e.BatchId, e.RecordId, e.Failed, e.Message);
                     }));
+
+            BigBrother.EtwSubscriptions.Add(
+                typeof (BBExceptionEvent),
+                BigBrother.EventStream.OfType<BBExceptionEvent>().Subscribe(
+                    e =>
+                    {
+                        EtwInternalExceptionSource.Instance.BBException(e.Message, e.Exception.Message, e.Exception.StackTrace);
+                    }));
+
         }
 	}
 }

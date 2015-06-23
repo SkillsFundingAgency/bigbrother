@@ -22,6 +22,9 @@
             !t.IsAbstract &&
             t.GetCustomAttributes().Select(a => a.GetType()).Contains(typeof (EtwEventAttribute))).ToList();
 
+    var exceptionEvents = assembly.GetTypes().Where(t => typeof (BBExceptionEvent).IsAssignableFrom(t) && !t.IsAbstract).ToList();
+    exceptionEvents.Add(typeof (BBExceptionEvent));
+
 	var i = 1;
     manager.StartNewFile("EtwInternalSource.Generated.cs");
 #>
@@ -87,6 +90,68 @@ namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")
 #>
 }
 <#
+    manager.StartNewFile("EtwInternalExceptionSource.Generated.cs");
+#>
+namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")#>
+{
+	using System;
+    using Microsoft.Diagnostics.Tracing;
+
+    [EventSource(Name = "SFA-<#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")#>-Exceptions")]
+    public sealed partial class EtwInternalExceptionSource : EventSource
+    {
+        private static readonly Lazy<EtwInternalExceptionSource> lazy = new Lazy<EtwInternalExceptionSource>(() => new EtwInternalExceptionSource());
+
+        public static EtwInternalExceptionSource Instance { get { return lazy.Value; } }
+
+<#  foreach (var bbEvent in exceptionEvents)
+	{
+	    var validProperties = bbEvent.GetProperties()
+	                                 .Where(p => (p.PropertyType.IsValueType ||
+	                                              p.PropertyType == typeof (Guid) ||
+	                                              p.PropertyType == typeof (string)) &&
+	                                             (p.PropertyType.Namespace != null && !p.PropertyType.Namespace.Contains("BigBrother.Core")))
+	                                 .ToList();
+#>
+		[Event(
+			<#=i#>,
+			Task = Tasks.<#=EtwEventName(bbEvent)#>,
+            Opcode = EventOpcode.Info,
+            Level = EventLevel.Critical,
+            Channel = EventChannel.Operational,
+            Message = "Exception: {0}")]
+		public void <#=EtwEventName(bbEvent)#>(<#=MapToSignature(validProperties, true)#>, string exMessage, string exStackTrace)
+		{
+			if (IsEnabled())
+				WriteEvent(<#=i++#>, <#=MapToSignature(validProperties)#>, exMessage, exStackTrace);
+		}
+
+<#
+    }
+#>
+    }
+
+    /// <summary>
+    /// <see cref="EventTask"/> Codes for the <see cref="EtwInternalExceptionSource"/> event source.
+    /// </summary>
+    public static partial class Tasks
+    {
+<#
+    i = 0;
+	foreach (var bbEvent in exceptionEvents)
+	{
+#>
+        /// <summary>
+        /// <#=EtwEventName(bbEvent)#> event.
+        /// </summary>
+        public const EventTask <#=EtwEventName(bbEvent)#> = (EventTask) (1 << <#=i++#>);
+
+	}
+<#
+    }
+#>
+}
+<#
     manager.StartNewFile("SetupBB.Generated.cs");
 #>
 namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")#>
@@ -115,6 +180,27 @@ namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")
                     {
                         EtwInternalSource.Instance.<#=EtwEventName(bbEvent)#>(<#=MapToEventSource(validProperties)#>);
                     }));
+
+<#
+    }
+
+    foreach (var bbEvent in exceptionEvents)
+	{
+	    var validProperties = bbEvent.GetProperties()
+	                                 .Where(p => (p.PropertyType.IsValueType ||
+	                                              p.PropertyType == typeof (Guid) ||
+	                                              p.PropertyType == typeof (string)) &&
+	                                             (p.PropertyType.Namespace != null && !p.PropertyType.Namespace.Contains("BigBrother.Core")))
+	                                 .ToList();
+#>
+            BigBrother.EtwSubscriptions.Add(
+                typeof (<#=bbEvent.Name#>),
+                BigBrother.EventStream.OfType<<#=bbEvent.Name#>>().Subscribe(
+                    e =>
+                    {
+                        EtwInternalExceptionSource.Instance.<#=EtwEventName(bbEvent)#>(<#=MapToEventSource(validProperties)#>, e.Exception.Message, e.Exception.StackTrace);
+                    }));
+
 <#
     }
 #>

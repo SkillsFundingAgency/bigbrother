@@ -2,7 +2,7 @@
 {
     using Microsoft.ApplicationInsights.Channel;
 
-    public class BBMetricEvent : BBEvent
+    internal class BBMetricEvent : BBEvent
     {
         public BBMetricEvent(string message)
             : base(message)

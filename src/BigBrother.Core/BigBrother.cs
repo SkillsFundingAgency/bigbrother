@@ -11,13 +11,12 @@
     using Microsoft.ApplicationInsights;
     using Microsoft.ApplicationInsights.DataContracts;
     using Microsoft.ApplicationInsights.Extensibility;
-    using Microsoft.CSharp.RuntimeBinder;
 
     public static class BigBrother
     {
         static BigBrother()
         {
-            var insightsKey = ConfigurationManager.AppSettings["iKey"];
+            var insightsKey = ConfigurationManager.AppSettings["iKey"] ?? "";
 
             TelemetryConfiguration.Active.InstrumentationKey = insightsKey;
             InsightsClient.InstrumentationKey = insightsKey;

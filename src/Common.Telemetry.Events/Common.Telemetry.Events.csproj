@@ -98,6 +98,9 @@
     <Compile Include="BulkImportEvent.Generated.cs">
       <DependentUpon>AppInsights.tt</DependentUpon>
     </Compile>
+    <Compile Include="EtwInternalExceptionSource.Generated.cs">
+      <DependentUpon>Etw.tt</DependentUpon>
+    </Compile>
     <Compile Include="EtwInternalSource.Generated.cs">
       <DependentUpon>Etw.tt</DependentUpon>
     </Compile>
@@ -132,7 +135,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="ApplicationInsights.config" />
     <None Include="BigBrother.snk" />
     <None Include="packages.config" />
     <None Include="TemplateFileManager.ttinclude" />
