@@ -19,10 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packaging", "packaging", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "content", "content", "{A6122C84-E12F-454A-8C02-98AE228F0515}"
 	ProjectSection(SolutionItems) = preProject
-		..\packaging\content\app.config.install.xdt = ..\packaging\content\app.config.install.xdt
-		..\packaging\content\app.config.uninstall.xdt = ..\packaging\content\app.config.uninstall.xdt
-		..\packaging\content\web.config.install.xdt = ..\packaging\content\web.config.install.xdt
-		..\packaging\content\web.config.uninstall.xdt = ..\packaging\content\web.config.uninstall.xdt
+		BigBrother.Core\content\app.config.install.xdt = BigBrother.Core\content\app.config.install.xdt
+		BigBrother.Core\content\app.config.uninstall.xdt = BigBrother.Core\content\app.config.uninstall.xdt
+		BigBrother.Core\content\web.config.install.xdt = BigBrother.Core\content\web.config.install.xdt
+		BigBrother.Core\content\web.config.uninstall.xdt = BigBrother.Core\content\web.config.uninstall.xdt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{A5D944EF-E24E-49E2-AB5B-D45386080828}"

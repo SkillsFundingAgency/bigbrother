@@ -1,21 +1,14 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
 <#@ include file="TemplateFileManager.ttinclude" #>
 <#@ assembly name="System.Core" #>
+<#@ assembly name="Microsoft.CSharp" #>
 <#@ assembly name="$(ProjectDir)\bin\Debug\BigBrother.Core.dll" #>
-<#@ assembly name="$(ProjectDir)..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.25\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll" #>
+<#@ assembly name="$(ProjectDir)\bin\Debug\$(TargetFileName)" #>
 <#@ import namespace="BigBrother.Core" #>
 <#@ output extension=".cs" #><#
-	/***********************************************************/
-	// This is the relative output directory for this project.
-	// TODO: Get rid of this and make it smarter.
-	/***********************************************************/
-
-    const string relativeOutDir = @"\bin\Debug";
-
 	var manager = TemplateFileManager.Create(this);
-    var path = Path.Combine(Path.GetDirectoryName(Host.TemplateFile) + relativeOutDir, "Common.Telemetry.Events.dll");
 
-    var assembly = Assembly.LoadFrom(path);
+    var assembly = AppDomain.CurrentDomain.GetAssemblies().First(a => a.ManifestModule.Name.Contains("Telemetry.Events.dll"));
     var events = assembly.GetTypes().Where(
         t =>
             typeof (BBEvent).IsAssignableFrom(t) &&
@@ -49,7 +42,7 @@ namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")
 	                                             (p.PropertyType.Namespace != null && !p.PropertyType.Namespace.Contains("BigBrother.Core")))
 	                                 .ToList();
 		
-		var attribute = (EtwEventAttribute)bbEvent.GetCustomAttribute(typeof (EtwEventAttribute));
+		dynamic attribute = bbEvent.GetCustomAttribute(typeof (EtwEventAttribute));
 #>
 		[Event(
 			<#=i#>,
@@ -84,12 +77,13 @@ namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")
         /// </summary>
         public const EventTask <#=EtwEventName(bbEvent)#> = (EventTask) (1 << <#=i++#>);
 
-	}
 <#
     }
 #>
+	}
 }
 <#
+    i = 1;
     manager.StartNewFile("EtwInternalExceptionSource.Generated.cs");
 #>
 namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")#>
@@ -146,10 +140,10 @@ namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")
         /// </summary>
         public const EventTask <#=EtwEventName(bbEvent)#> = (EventTask) (1 << <#=i++#>);
 
-	}
 <#
     }
 #>
+	}
 }
 <#
     manager.StartNewFile("SetupBB.Generated.cs");

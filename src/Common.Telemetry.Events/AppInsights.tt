@@ -2,20 +2,13 @@
 <#@ include file="TemplateFileManager.ttinclude" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="$(ProjectDir)\bin\Debug\BigBrother.Core.dll" #>
+<#@ assembly name="$(ProjectDir)\bin\Debug\$(TargetFileName)" #>
 <#@ import namespace="BigBrother.Core" #>
 <#@ output extension=".cs" #>
 <#
-	/***********************************************************/
-	// This is the relative output directory for this project.
-	// TODO: Get rid of this and make it smarter.
-	/***********************************************************/
-
-    const string relativeOutDir = @"\bin\Debug";
-
 	var manager = TemplateFileManager.Create(this);
-    var path = Path.Combine(Path.GetDirectoryName(Host.TemplateFile) + relativeOutDir, "Common.Telemetry.Events.dll");
 
-    var assembly = Assembly.LoadFrom(path);
+    var assembly = AppDomain.CurrentDomain.GetAssemblies().First(a => a.ManifestModule.Name.Contains("Telemetry.Events.dll"));
     var events = assembly.GetTypes().Where(t => typeof (BBEvent).IsAssignableFrom(t) && !t.IsAbstract);
 
     foreach (var bbEvent in events)
@@ -56,3 +49,24 @@ namespace <#= bbEvent.Namespace #>
 #>
 
 // Intentionally Empty
+
+<#+
+
+    private static byte[] GetAssembly(string assemblyPath)
+    {
+		byte[] data;
+
+		using (var fs = File.OpenRead(assemblyPath))
+		{
+			data = new byte[fs.Length];
+			fs.Read(data, 0, Convert.ToInt32(fs.Length));
+		}
+
+		if (data == null || data.Length == 0)
+		{
+			throw new ApplicationException("Failed to load " + assemblyPath);
+		}
+
+		return data;
+    }
+#>

@@ -83,6 +83,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="BigBrother.Core.nuspec" />
     <None Include="BigBrother.snk" />
     <None Include="packages.config" />
   </ItemGroup>

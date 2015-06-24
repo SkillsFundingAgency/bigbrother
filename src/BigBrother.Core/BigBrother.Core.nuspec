@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>BigBrother</id>
+    <title>BigBrother</title>
+    <version>$version$</version>
+    <authors>Skills Funding Agency</authors>
+    <owners>David Rodrigues</owners>
+    <licenseUrl>https://github.com/sfa-gov-uk/bigbrother/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/sfa-gov-uk/bigbrother</projectUrl>
+    <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A telemetry and logging platform for .Net Cloud Services that streams to Application Insights and to Etw (to be picked up be WAD).</description>
+    <releaseNotes>Initial Package release.</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>DevOps Logging Telemetry</tags>
+    <dependencies>
+      <dependency id="Microsoft.ApplicationInsights" version="0.17.0" />
+      <dependency id="Microsoft.Bcl" version="1.1.10" />
+      <dependency id="Microsoft.Diagnostics.Tracing.EventSource" version="1.1.25" />
+      <dependency id="Rx-Main" version="2.2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="content\app.config.install.xdt" target="content" />
+    <file src="content\app.config.uninstall.xdt" target="content" />
+    <file src="content\web.config.install.xdt" target="content" />
+    <file src="content\web.config.uninstall.xdt" target="content" />
+    <file src="..\Common.Telemetry.Events\AppInsights.tt" target="content" />
+    <file src="..\Common.Telemetry.Events\Etw.tt" target="content" />
+    <file src="..\Common.Telemetry.Events\TemplateFileManager.ttinclude" target="content" />
+  </files>
+</package>
