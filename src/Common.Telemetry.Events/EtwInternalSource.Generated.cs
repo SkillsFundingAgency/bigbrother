@@ -16,7 +16,7 @@
             Opcode = EventOpcode.Info,
             Level = EventLevel.LogAlways,
             Channel = EventChannel.None,
-            Message = "Batch {0} - Record {1}")]
+            Message = "BulkImport")]
 		public void BulkImport(Guid batchId, Guid recordId, Boolean failed, String message)
 		{
 			if (IsEnabled())

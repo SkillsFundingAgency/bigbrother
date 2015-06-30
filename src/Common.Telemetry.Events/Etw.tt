@@ -43,6 +43,7 @@ namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")
 	                                 .ToList();
 		
 		dynamic attribute = bbEvent.GetCustomAttribute(typeof (EtwEventAttribute));
+	    var attributeMessage = attribute.Message ?? EtwEventName(bbEvent);
 #>
 		[Event(
 			<#=i#>,
@@ -50,7 +51,7 @@ namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")
             Opcode = EventOpcode.<#=attribute.Opcode#>,
             Level = EventLevel.<#=attribute.Level#>,
             Channel = EventChannel.<#=attribute.Channel#>,
-            Message = "<#=attribute.Message#>")]
+            Message = "<#=attributeMessage#>")]
 		public void <#=EtwEventName(bbEvent)#>(<#=MapToSignature(validProperties, true)#>)
 		{
 			if (IsEnabled())
