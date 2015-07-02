@@ -1,15 +1,21 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
-<#@ include file="TemplateFileManager.ttinclude" #>
+<#@ include file="MultipleOutputHelper.ttinclude" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="$(ProjectDir)\bin\Debug\BigBrother.Core.dll" #>
 <#@ assembly name="$(ProjectDir)\bin\Debug\$(TargetFileName)" #>
+<#@ import namespace="System.Linq" #>
 <#@ import namespace="BigBrother.Core" #>
 <#@ output extension=".cs" #>
 <#
-	var manager = TemplateFileManager.Create(this);
+	var manager = Manager.Create(Host, GenerationEnvironment);
 
-    var assembly = AppDomain.CurrentDomain.GetAssemblies().First(a => a.ManifestModule.Name.Contains("Telemetry.Events.dll"));
-    var events = assembly.GetTypes().Where(t => typeof (BBEvent).IsAssignableFrom(t) && !t.IsAbstract);
+    var events = AppDomain.CurrentDomain.GetAssemblies()
+                          .SelectMany(a => a.GetTypes())
+                          .Where(
+                              t =>
+                                  typeof (BBEvent).IsAssignableFrom(t) &&
+                                  !t.IsAbstract &&
+                                  t.Namespace != "BigBrother.Core");
 
     foreach (var bbEvent in events)
     {
@@ -45,7 +51,7 @@ namespace <#= bbEvent.Namespace #>
 <#
     }
 
-    manager.Process();
+    manager.Process(true);
 #>
 
 // Intentionally Empty

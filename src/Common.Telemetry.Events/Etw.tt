@@ -1,21 +1,33 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
-<#@ include file="TemplateFileManager.ttinclude" #>
+<#@ include file="MultipleOutputHelper.ttinclude" #>
 <#@ assembly name="System.Core" #>
 <#@ assembly name="Microsoft.CSharp" #>
 <#@ assembly name="$(ProjectDir)\bin\Debug\BigBrother.Core.dll" #>
 <#@ assembly name="$(ProjectDir)\bin\Debug\$(TargetFileName)" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Reflection" #>
 <#@ import namespace="BigBrother.Core" #>
 <#@ output extension=".cs" #><#
-	var manager = TemplateFileManager.Create(this);
+	var manager = Manager.Create(Host, GenerationEnvironment);
 
-    var assembly = AppDomain.CurrentDomain.GetAssemblies().First(a => a.ManifestModule.Name.Contains("Telemetry.Events.dll"));
-    var events = assembly.GetTypes().Where(
-        t =>
-            typeof (BBEvent).IsAssignableFrom(t) &&
-            !t.IsAbstract &&
-            t.GetCustomAttributes().Select(a => a.GetType()).Contains(typeof (EtwEventAttribute))).ToList();
+    var events = AppDomain.CurrentDomain.GetAssemblies()
+                          .SelectMany(a => a.GetTypes())
+                          .Where(
+                              t =>
+                                  typeof (BBEvent).IsAssignableFrom(t) &&
+                                  !t.IsAbstract &&
+								  t.Namespace != "BigBrother.Core" &&
+                                  t.GetCustomAttributes().Select(a => a.GetType()).Contains(typeof (EtwEventAttribute))).ToList();
 
-    var exceptionEvents = assembly.GetTypes().Where(t => typeof (BBExceptionEvent).IsAssignableFrom(t) && !t.IsAbstract).ToList();
+    var exceptionEvents = AppDomain.CurrentDomain.GetAssemblies()
+                                   .SelectMany(a => a.GetTypes())
+                                   .Where(
+                                       t =>
+                                           typeof (BBExceptionEvent).IsAssignableFrom(t) &&
+                                           !t.IsAbstract &&
+                                           t.Namespace != "BigBrother.Core")
+                                   .ToList();
+
     exceptionEvents.Add(typeof (BBExceptionEvent));
 
 	var i = 1;
@@ -26,7 +38,7 @@ namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")
 	using System;
     using Microsoft.Diagnostics.Tracing;
 
-    [EventSource(Name = "SFA-<#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")#>")]
+    [EventSource(Name = "<#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")#>")]
     public sealed partial class EtwInternalSource : EventSource
     {
         private static readonly Lazy<EtwInternalSource> lazy = new Lazy<EtwInternalSource>(() => new EtwInternalSource());
@@ -92,7 +104,7 @@ namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")
 	using System;
     using Microsoft.Diagnostics.Tracing;
 
-    [EventSource(Name = "SFA-<#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")#>-Exceptions")]
+    [EventSource(Name = "<#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")#>-Exceptions")]
     public sealed partial class EtwInternalExceptionSource : EventSource
     {
         private static readonly Lazy<EtwInternalExceptionSource> lazy = new Lazy<EtwInternalExceptionSource>(() => new EtwInternalExceptionSource());
@@ -203,7 +215,7 @@ namespace <#=Host.ResolveParameterValue("Etw", "Etw", "projectDefaultNamespace")
 	}
 }
 <#
-    manager.Process();
+    manager.Process(true);
 #>
 <#+
     private static string CamelCase(string input)

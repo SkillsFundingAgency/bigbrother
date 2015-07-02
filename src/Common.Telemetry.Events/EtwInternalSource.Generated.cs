@@ -1,9 +1,9 @@
-﻿namespace Common.Telemetry.Events
+namespace Common.Telemetry.Events
 {
 	using System;
     using Microsoft.Diagnostics.Tracing;
 
-    [EventSource(Name = "SFA-Common.Telemetry.Events")]
+    [EventSource(Name = "Common.Telemetry.Events")]
     public sealed partial class EtwInternalSource : EventSource
     {
         private static readonly Lazy<EtwInternalSource> lazy = new Lazy<EtwInternalSource>(() => new EtwInternalSource());
@@ -16,7 +16,7 @@
             Opcode = EventOpcode.Info,
             Level = EventLevel.LogAlways,
             Channel = EventChannel.None,
-            Message = "BulkImport")]
+            Message = "Batch {0} - Record {1}")]
 		public void BulkImport(Guid batchId, Guid recordId, Boolean failed, String message)
 		{
 			if (IsEnabled())

@@ -1,9 +1,9 @@
-﻿namespace Common.Telemetry.Events
+namespace Common.Telemetry.Events
 {
 	using System;
     using Microsoft.Diagnostics.Tracing;
 
-    [EventSource(Name = "SFA-Common.Telemetry.Events-Exceptions")]
+    [EventSource(Name = "Common.Telemetry.Events-Exceptions")]
     public sealed partial class EtwInternalExceptionSource : EventSource
     {
         private static readonly Lazy<EtwInternalExceptionSource> lazy = new Lazy<EtwInternalExceptionSource>(() => new EtwInternalExceptionSource());
