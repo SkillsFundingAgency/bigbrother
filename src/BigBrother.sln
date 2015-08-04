@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigBrother.Core", "BigBrother.Core\BigBrother.Core.csproj", "{527A9461-BFC4-470B-BE3E-C645DBF481C5}"
 EndProject
@@ -12,8 +12,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9D21055F-CF5F-4ED6-B2F3-811959ECB799}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigBrother.Core.Tests", "Tests\BigBrother.Core.Tests\BigBrother.Core.Tests.csproj", "{B0D056F7-4994-4A4C-99C5-372A0A4D24D2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Telemetry.Events.Tests", "Tests\Common.Telemetry.Events.Tests\Common.Telemetry.Events.Tests.csproj", "{87E873EA-5338-4CEE-BFEF-D70A90D55E1B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packaging", "packaging", "{1DDB7EE3-438C-499E-9D12-8E11962E38FF}"
 EndProject
@@ -49,17 +47,12 @@ Global
 		{B0D056F7-4994-4A4C-99C5-372A0A4D24D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0D056F7-4994-4A4C-99C5-372A0A4D24D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0D056F7-4994-4A4C-99C5-372A0A4D24D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87E873EA-5338-4CEE-BFEF-D70A90D55E1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87E873EA-5338-4CEE-BFEF-D70A90D55E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87E873EA-5338-4CEE-BFEF-D70A90D55E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87E873EA-5338-4CEE-BFEF-D70A90D55E1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B0D056F7-4994-4A4C-99C5-372A0A4D24D2} = {9D21055F-CF5F-4ED6-B2F3-811959ECB799}
-		{87E873EA-5338-4CEE-BFEF-D70A90D55E1B} = {9D21055F-CF5F-4ED6-B2F3-811959ECB799}
 		{A6122C84-E12F-454A-8C02-98AE228F0515} = {1DDB7EE3-438C-499E-9D12-8E11962E38FF}
 		{A5D944EF-E24E-49E2-AB5B-D45386080828} = {1DDB7EE3-438C-499E-9D12-8E11962E38FF}
 	EndGlobalSection
