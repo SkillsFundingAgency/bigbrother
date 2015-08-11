@@ -1,6 +1,9 @@
 ﻿<#@ template debug="false" hostspecific="true" language="C#" #>
 <#@ include file="MultipleOutputHelper.ttinclude" #>
 <#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data.Linq" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
 <#@ assembly name="$(ProjectDir)\bin\Debug\BigBrother.Core.dll" #>
 <#@ assembly name="$(ProjectDir)\bin\Debug\$(TargetFileName)" #>
 <#@ import namespace="System.Linq" #>

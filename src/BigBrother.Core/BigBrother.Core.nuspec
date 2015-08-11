@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/sfa-gov-uk/bigbrother</projectUrl>
     <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A telemetry and logging platform for .Net Cloud Services that streams to Application Insights and to Etw (to be picked up be WAD).</description>
+    <description>A telemetry and logging platform for .Net Cloud Services that streams to Application Insights and to Etw (to be picked up by WAD).</description>
     <releaseNotes>Initial Package release.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>DevOps Logging Telemetry</tags>
@@ -28,6 +28,6 @@
     <file src="content\web.config.uninstall.xdt" target="content" />
     <file src="..\Common.Telemetry.Events\AppInsights.tt" target="content" />
     <file src="..\Common.Telemetry.Events\Etw.tt" target="content" />
-    <file src="..\Common.Telemetry.Events\TemplateFileManager.ttinclude" target="content" />
+    <file src="..\Common.Telemetry.Events\MultipleOutputHelper.ttinclude" target="content" />
   </files>
 </package>

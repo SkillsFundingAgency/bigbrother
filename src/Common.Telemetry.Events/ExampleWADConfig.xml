@@ -24,10 +24,10 @@
         <PerformanceCounterConfiguration counterSpecifier="\Processor(_Total)\% Processor Time" sampleRate="PT1M" />
       </PerformanceCounters>
       <EtwProviders>
-        <EtwEventSourceProviderConfiguration provider="BBTest.Telemetry.Events" scheduledTransferPeriod="PT1M">
+        <EtwEventSourceProviderConfiguration provider="Common.Telemetry.Events" scheduledTransferPeriod="PT1M">
           <DefaultEvents eventDestination="DefaultBBTable" />
         </EtwEventSourceProviderConfiguration>
-        <EtwEventSourceProviderConfiguration provider="BBTest.Telemetry.Events-Exceptions" scheduledTransferPeriod="PT1M">
+        <EtwEventSourceProviderConfiguration provider="Common.Telemetry.Events-Exceptions" scheduledTransferPeriod="PT1M">
           <DefaultEvents eventDestination="DefaultBBExceptionsTable" />
         </EtwEventSourceProviderConfiguration>
       </EtwProviders>
